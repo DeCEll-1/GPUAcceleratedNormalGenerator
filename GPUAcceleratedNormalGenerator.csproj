@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommandLineParser" Version="2.9.1" />
+		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.17.1" />
+		<PackageReference Include="Magick.NET.Core" Version="14.17.1" />
+		<PackageReference Include="OpenTK" Version="4.9.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+
+		<ProjectReference Include="..\ResourceEnumGenerator\ResourceEnumGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		
+		<Reference Include="SharpShaders">
+			<HintPath>..\SharpShaders\bin\Debug\net8.0\SharpShaders.dll</HintPath>
+		</Reference>
+		
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Shaders\**\*.comp" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<CompilerVisibleProperty Include="MSBuildProjectDirectory" />
+		<CompilerVisibleProperty Include="MSBuildProjectName" />
+		<AdditionalFiles Include="@(EmbeddedResource)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="icon.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="manifest.psv">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>

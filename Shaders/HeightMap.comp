@@ -1,0 +1,31 @@
+#version 430 core
+
+layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+
+layout(binding = 0) uniform sampler2DArray u_InputTexture;
+
+layout(r32f, binding = 0) writeonly uniform image2DArray u_OutputImage;
+
+uniform float uHeightScale = 1.0;
+uniform float uContrast = 1.0;
+
+void main() {
+    ivec3 pixelCoords = ivec3(gl_GlobalInvocationID.xyz);
+    ivec3 imgSize = imageSize(u_OutputImage);
+
+    if (pixelCoords.x >= imgSize.x || pixelCoords.y >= imgSize.y || pixelCoords.z >= imgSize.z) {
+        return;
+    }
+
+    vec2 uv = (vec2(pixelCoords.xy) + 0.5) / vec2(imgSize.xy);
+
+    vec4 rgba = texture(u_InputTexture, vec3(uv, float(pixelCoords.z)));
+
+    float height = dot(rgba.rgb, vec3(0.2126, 0.7152, 0.0722));
+
+    height = clamp(pow(height, uContrast), 0.0, 1.0);
+
+    height *= uHeightScale;
+
+    imageStore(u_OutputImage, pixelCoords, vec4(height, 0.0, 0.0, 1.0));
+}

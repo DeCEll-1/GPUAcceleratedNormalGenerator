@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Single File": {
+      "commandName": "Project",
+      "commandLineArgs": "-i \"./icon.jpg\" -h \"./heightmap.png\" -s 5 -o \"./normal.png\""
+    },
+    "Batch": {
+      "commandName": "Project",
+      "commandLineArgs": "-f \"./manifest.psv\" -b 128"
+    }
+  }
+}
